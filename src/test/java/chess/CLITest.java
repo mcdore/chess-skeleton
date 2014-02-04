@@ -6,6 +6,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import chess.pieces.King;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.PrintStream;

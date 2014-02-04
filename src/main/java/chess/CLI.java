@@ -3,6 +3,9 @@ package chess;
 import chess.pieces.Piece;
 
 import java.io.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides the basic CLI interface to the Chess game.
@@ -64,11 +67,48 @@ public class CLI {
                 } else if (input.equals("board")) {
                     writeOutput("Current Game:");
                 } else if (input.equals("list")) {
-                    writeOutput("====> List Is Not Implemented (yet) <====");
+                    showMoves();
                 } else if (input.startsWith("move")) {
-                    writeOutput("====> Move Is Not Implemented (yet) <====");
+                    writeOutput(makeMove(input));
                 } else {
                     writeOutput("I didn't understand that.  Type 'help' for a list of commands.");
+                }
+            }
+        }
+    }
+    
+    protected String makeMove(String command) {
+        String[] parts = command.split(" ");
+        
+        if (parts.length != 3) {
+            return "Invalid move command; enter in the form 'move [current position] [new position]'";
+        }
+        
+        if (!Position.validPosition(parts[1])) return "Invalid current position.";
+        if (!Position.validPosition(parts[2])) return "Invalid new position.";
+        Position fromPos = new Position(parts[1]);
+        Position toPos = new Position(parts[2]);
+        
+        Map<Position, Set<Position>> availableMoves = gameState.getMoves();
+        
+        Set<Position> movesFromPosition = gameState.getMoves().get(fromPos);
+        if ((movesFromPosition == null) || (!availableMoves.get(fromPos).contains(toPos))) {
+            return "Invalid move! Type list to see valid moves.";
+        }
+        else
+        {
+            return gameState.move(fromPos,toPos);
+        }
+    }
+    
+    private void showMoves() {
+        Map<Position, Set<Position>> moves = gameState.getMoves();
+        if (moves.size() == 0) writeOutput("No possible moves");
+        else {
+            writeOutput("Possible moves: ");
+            for (Position fromPos : moves.keySet()) {
+                for (Position toPos : moves.get(fromPos)) {
+                    writeOutput("\t" + fromPos.toString() + " " + toPos.toString());
                 }
             }
         }

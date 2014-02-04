@@ -18,8 +18,22 @@ public class Position {
      * @param row The row
      */
     public Position(char column, int row) {
+        if (!validPosition(column, row)) throw new RuntimeException("Invalid position");
         this.row = row;
         this.column = column;
+    }
+    
+    public static boolean validPosition(char column, int row) {
+        if ((row > MAX_ROW) || (row < MIN_ROW))
+            return false;
+        else if ((column > MAX_COLUMN) || (column < MIN_COLUMN))
+            return false;
+        return true;
+    }
+    
+    public static boolean validPosition(String colrow) {
+        if (colrow.length() != 2) return false;
+        return validPosition(colrow.toCharArray()[0], Character.digit(colrow.toCharArray()[1], 10));
     }
 
     /**

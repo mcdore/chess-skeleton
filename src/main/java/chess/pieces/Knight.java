@@ -8,6 +8,8 @@ import chess.Player;
 public class Knight extends Piece {
     public Knight(Player owner) {
         super(owner);
+        this.movementModels.add(new MovementModel(false, 2, 1));
+        this.movementModels.add(new MovementModel(false, 1, 2));
     }
 
     @Override

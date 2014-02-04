@@ -8,6 +8,7 @@ import chess.Player;
 public class Pawn extends Piece {
     public Pawn(Player owner) {
         super(owner);
+        this.movementModels.add(new PawnMovementModel(owner));
     }
 
     @Override
